@@ -1,0 +1,62 @@
+import java.util.Scanner;
+import java.util.Arrays;
+import java.io.IOException;
+import java.io.OutputStream;
+import static java.lang.Math.*;
+
+class Zd2{
+	public static int[][] CreateArray(int _m, int _n) {
+    int[][] _cache = new int[_m][_n];
+	return _cache;
+}
+
+	public static void Calculate(int[][] _cache, int _M, int _N, int size, int strings){
+		if ((_M == 0) && (_N == 0)){
+			System.out.println("Calculate has been ended");
+		}
+		else{
+			if ((_M == 0) && (_N != 0)){
+				_M = strings;
+				_N--;
+			}
+			else{
+				if (_M * _N == size){
+					for (int i = _M; i > 0; i--){
+						_cache[i-1][_N-1] = 1;
+					} 
+					for (int i = _N; i > 0; i--){
+						_cache[_M-1][i-1] = 1;
+					} 
+					_N--;
+				}
+				else{ 					
+					_cache[_M-1][_N-1] = _cache[_M][_N-1] + _cache[_M-1][_N];			
+				}								
+			}
+			_M--;
+			if ((_M == 0) && (_N == 1)){
+				_N--;
+			}
+			Calculate(_cache, _M, _N, size, strings);
+		}	
+	}
+	
+	
+  public static void main(String[] Args){
+	   int M = 0;
+	   int N = 0;
+	   Scanner in = new Scanner(System.in);
+	   System.out.println("Enter the string number");
+	   M = in.nextInt();	  
+	   System.out.println("Enter the column number");
+	   N = in.nextInt();
+	   if(((M < 1) || (N < 1)) || ((M > 10) || (N > 10))){
+		   System.out.println("You entered incorrect number");
+		   System.exit(0);
+	   }
+	   int[][] cache = CreateArray(M,N);
+	   Calculate(cache, M, N, M*N, M);
+	   System.out.println(cache[0][0]);
+	}
+
+}
